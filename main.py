@@ -18,16 +18,13 @@ try:
             self.clients = []
 
         def add_client(self, clients):
-
             self.clients.append(clients)
 
         def gas_check(self, x):
             l = []
             for i in station._registry:
                 if x in i.gas:
-
-                    l.append(i)
-
+                     l.append(i)
             return l
 
         def check_place(self):
@@ -68,7 +65,7 @@ try:
     def fill_class(x):
         for line in x.readlines():
             line = line.strip().split()
-            line = station(f'station {line[0]}', int(line[1]), line[2:])
+            station(f'station {line[0]}', int(line[1]), line[2:])
 
     def main(file, azs):
         fill_class(azs)
@@ -90,18 +87,14 @@ try:
             else:
                 minut = int(h_m[1]) + round(amount / 10) + rand.randint(-1, 1)
             cl_time = dt.timedelta(hours = int(h_m[0]), minutes = minut )
-
             station.clear_space(station, time_now)
-
             app_stations = station.gas_check(station, gas_type)
             new_cl = (min_line(app_stations))
-
             if type(new_cl) != str:
                 station.add_client(new_cl, cl_time)
                 new_cl.line += 1
                 print(f'{time_now} new client, {gas_type} {amount} in queue at {new_cl.num} ')
                 gas_sold[gas_type] += amount
-
             else:
                 print(f'New client {time_now} {gas_type} {amount} wasn`t able to stand in queue and left')
                 clients_missed += 1
