@@ -2,6 +2,7 @@
 # Seledtsov A. (),
 # Evdischenko M. ()
 import random as rand
+import math
 import datetime as dt
 gas_info = open('azs.txt', 'r')
 clients_info = open('input.txt', 'r')
@@ -82,10 +83,10 @@ try:
             gas_type = line[2]
             time_now = dt.timedelta(hours= int(h_m[0]), minutes = int(h_m[1]))
             amount = int(line[1])
-            if amount < 15:
-                minut = int(h_m[1]) + round(amount/10) + rand.randint(0, 1)
+            if amount <= 10:
+                minut = int(h_m[1]) + math.ceil(amount/10) + rand.randint(0, 1)
             else:
-                minut = int(h_m[1]) + round(amount / 10) + rand.randint(-1, 1)
+                minut = int(h_m[1]) + math.ceil(amount / 10) + rand.randint(-1, 1)
             cl_time = dt.timedelta(hours = int(h_m[0]), minutes = minut )
             station.clear_space(station, time_now)
             app_stations = station.gas_check(station, gas_type)
