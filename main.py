@@ -112,9 +112,9 @@ try:
         return gas_sold,money_erned, clients_missed
     a, b, c = main(clients_info, gas_info)
     for i, j in a.items():
-        print(f'sold {j} liters of {i}')
-    print(f'заработано {b}руб')
-    print('Упущено клиентов', c)
+        print(f'Sold {j} liters of {i}')
+    print(f'Money erned {b}руб')
+    print('Clients missed', c)
 
 finally:
     gas_info.close()
