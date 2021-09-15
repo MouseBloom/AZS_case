@@ -1,7 +1,8 @@
+# Developers: Marinkin O. (),
+# Seledtsov A. (),
+# Evdischenko M. ()
 import random as rand
-import sys
 import datetime as dt
-import math
 gas_info = open('azs.txt', 'r')
 clients_info = open('input.txt', 'r')
 try:
@@ -24,9 +25,9 @@ try:
             l = []
             for i in station._registry:
                 if x in i.gas:
-                    #print(i.num)
+
                     l.append(i)
-            #print(l)
+
             return l
 
         def check_place(self):
@@ -44,10 +45,7 @@ try:
                         obj.clients.remove(i)
                         obj.line -= 1
 
-
-
-
-    def min_line(x, time):
+    def min_line(x):
         l = []
         for obj in x:
 
@@ -66,17 +64,11 @@ try:
             return l[0]
         else:
             return 'No space'
+
     def fill_class(x):
         for line in x.readlines():
             line = line.strip().split()
             line = station(f'station {line[0]}', int(line[1]), line[2:])
-
-    '''line = gas_info.readline().split()
-    st1 = station("station 1", int(line[1]), line[2:] )
-    line = gas_info.readline().split()
-    st2 = station("station 2", int(line[1]), line[2:])
-    line = gas_info.readline().split()
-    st3 = station("station 3", int(line[1]), line[2:])'''
 
     def main(file, azs):
         fill_class(azs)
@@ -98,21 +90,20 @@ try:
             else:
                 minut = int(h_m[1]) + round(amount / 10) + rand.randint(-1, 1)
             cl_time = dt.timedelta(hours = int(h_m[0]), minutes = minut )
-            #print(cl_time)
+
             station.clear_space(station, time_now)
-            #print(gas_type)
+
             app_stations = station.gas_check(station, gas_type)
-            new_cl = (min_line(app_stations, time_now))
-            #print(new_cl)
+            new_cl = (min_line(app_stations))
+
             if type(new_cl) != str:
                 station.add_client(new_cl, cl_time)
                 new_cl.line += 1
-                print(f'{time_now} new client, {gas_type} {amount} in line at {new_cl.num} ')
+                print(f'{time_now} new client, {gas_type} {amount} in queue at {new_cl.num} ')
                 gas_sold[gas_type] += amount
-                #print(new_cl.num, end='  ')
-                #print(new_cl.line)
+
             else:
-                #print('No space')
+                print(f'New client {time_now} {gas_type} {amount} wasn`t able to stand in queue and left')
                 clients_missed += 1
         money_erned = 0
 
