@@ -1,4 +1,4 @@
-# Developers: Marinkin O. (),
+# Developers: Marinkin O. (65%),
 # Seledtsov A. (),
 # Evdischenko M. ()
 import random as rand
