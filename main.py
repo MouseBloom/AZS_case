@@ -4,6 +4,8 @@
 import random as rand
 import math
 import datetime as dt
+
+
 gas_info = open('azs.txt', 'r')
 clients_info = open('input.txt', 'r')
 try:
@@ -35,6 +37,12 @@ try:
                 None
 
         def clear_space(self, time):
+            '''
+
+            :param self: class station
+            :param time: time now
+            :return: returns nothing, just clear 'clients' attribute
+            '''
 
             for obj in station._registry:
                 for i in obj.clients:
@@ -44,6 +52,11 @@ try:
                         obj.line -= 1
 
     def min_line(x):
+        '''
+
+        :param x: list of objects
+        :return: object with the minimal queue or 'No free space'
+        '''
         l = []
         for obj in x:
 
@@ -64,6 +77,11 @@ try:
             return 'No space'
 
     def fill_class(x):
+        '''
+
+        :param x: txt file with azs info
+        :purpose: fills class 'station' with objects
+        '''
         for line in x.readlines():
             line = line.strip().split()
             station(f'station {line[0]}', int(line[1]), line[2:])
@@ -100,11 +118,11 @@ try:
                 print(f'New client {time_now} {gas_type} {amount} wasn`t able to stand in queue and left')
                 clients_missed += 1
         money_erned = 0
-
         for i in gas_sold.items():
             money_erned += gas_price[i[0]] * i[1]
         return gas_sold,money_erned, clients_missed
     a, b, c = main(clients_info, gas_info)
+    print('')
     for i, j in a.items():
         print(f'Sold {j} liters of {i}')
     print(f'Money erned {b}руб')
