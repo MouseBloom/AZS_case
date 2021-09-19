@@ -1,6 +1,6 @@
 # Developers: Marinkin O. (65%),
-# Seledtsov A. (),
-# Evdischenko M. ()
+# Seledtsov A. (40%),
+# Evdischenko M. (40%)
 import random as rand
 import math
 import datetime as dt
