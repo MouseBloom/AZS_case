@@ -6,8 +6,8 @@ import math
 import datetime as dt
 
 
-gas_info = open('azs.txt', 'r')
-clients_info = open('input.txt', 'r')
+gas_info = open('azs.txt', 'r', encoding='utf-8')
+clients_info = open('input.txt', 'r', encoding='utf-8')
 try:
     class station(object):
         _registry = []
@@ -20,8 +20,13 @@ try:
             self.line = int(line)
             self.clients = []
 
-        def add_client(self, clients):
-            self.clients.append(clients)
+        def add_client(self, clients, ex_time):
+            if len(self.clients)==0:
+                self.clients.append(clients)
+            else:
+                self.clients.append(self.clients[-1] + ex_time)
+
+
 
         def gas_check(self, x):
             l = []
@@ -91,6 +96,7 @@ try:
         for obj in station._registry:
             print(f'{obj.num}, max queue {obj.limit}, gas types:', end=' ')
             print(*obj.gas)
+        print('')
         count = 0
         gas_price = {'АИ-80': 97.10, 'АИ-92': 45.03, 'АИ-95': 48.86, 'АИ-98': 56.16}  #info from mimobaka.ru
         gas_sold = {'АИ-80': 0, 'АИ-92': 0, 'АИ-95': 0, 'АИ-98': 0}
@@ -101,22 +107,25 @@ try:
             gas_type = line[2]
             time_now = dt.timedelta(hours= int(h_m[0]), minutes = int(h_m[1]))
             amount = int(line[1])
+
             if amount <= 10:
                 minut = int(h_m[1]) + math.ceil(amount/10) + rand.randint(0, 1)
             else:
                 minut = int(h_m[1]) + math.ceil(amount / 10) + rand.randint(-1, 1)
             cl_time = dt.timedelta(hours = int(h_m[0]), minutes = minut )
+            minut = dt.timedelta(hours = 0, minutes = minut)
             station.clear_space(station, time_now)
             app_stations = station.gas_check(station, gas_type)
             new_cl = (min_line(app_stations))
             if type(new_cl) != str:
-                station.add_client(new_cl, cl_time)
+                station.add_client(new_cl, cl_time, minut)
                 new_cl.line += 1
                 print(f'{time_now} new client, {gas_type} {amount} in queue at {new_cl.num} ')
                 gas_sold[gas_type] += amount
             else:
                 print(f'New client {time_now} {gas_type} {amount} wasn`t able to stand in queue and left')
                 clients_missed += 1
+
         money_erned = 0
         for i in gas_sold.items():
             money_erned += gas_price[i[0]] * i[1]
@@ -125,7 +134,7 @@ try:
     print('')
     for i, j in a.items():
         print(f'Sold {j} liters of {i}')
-    print(f'Money erned {b}руб')
+    print(f'Money erned {round(b, 2)}руб')
     print('Clients missed', c)
 
 finally:
