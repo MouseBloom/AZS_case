@@ -98,10 +98,11 @@ try:
             print(*obj.gas)
         print('')
         count = 0
-        gas_price = {'АИ-80': 97.10, 'АИ-92': 45.03, 'АИ-95': 48.86, 'АИ-98': 56.16}  #info from mimobaka.ru
+        gas_price = {'АИ-80': 97.10, 'АИ-92': 45.03, 'АИ-95': 48.86, 'АИ-98': 56.16}  # gas price in rub, info from mimobaka.ru
         gas_sold = {'АИ-80': 0, 'АИ-92': 0, 'АИ-95': 0, 'АИ-98': 0}
         clients_missed = 0
         for line in file:
+            #print()
             line = line.strip().split()
             h_m = line[0].split(':')
             gas_type = line[2]
@@ -113,7 +114,11 @@ try:
             else:
                 minut = int(h_m[1]) + math.ceil(amount / 10) + rand.randint(-1, 1)
             cl_time = dt.timedelta(hours = int(h_m[0]), minutes = minut )
-            minut = dt.timedelta(hours = 0, minutes = minut)
+            if amount <= 10:
+                minut =  math.ceil(amount/10) + rand.randint(0, 1)
+            else:
+                minut = math.ceil(amount / 10) + rand.randint(-1, 1)
+            minut = dt.timedelta(hours = 0, minutes= minut)
             station.clear_space(station, time_now)
             app_stations = station.gas_check(station, gas_type)
             new_cl = (min_line(app_stations))
@@ -131,7 +136,7 @@ try:
             money_erned += gas_price[i[0]] * i[1]
         return gas_sold,money_erned, clients_missed
     a, b, c = main(clients_info, gas_info)
-    print('')
+    #print('')
     for i, j in a.items():
         print(f'Sold {j} liters of {i}')
     print(f'Money erned {round(b, 2)}руб')
