@@ -130,10 +130,13 @@ try:
             else:
                 print(f'New client {time_now} {gas_type} {amount} wasn`t able to stand in queue and left')
                 clients_missed += 1
+            for obj in station._registry:
+                print(obj.num, 'queue', len(obj.clients))
 
         money_erned = 0
         for i in gas_sold.items():
             money_erned += gas_price[i[0]] * i[1]
+
         return gas_sold,money_erned, clients_missed
     a, b, c = main(clients_info, gas_info)
     #print('')
