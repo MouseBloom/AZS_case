@@ -139,7 +139,7 @@ try:
 
         return gas_sold,money_erned, clients_missed
     a, b, c = main(clients_info, gas_info)
-    #print('')
+
     for i, j in a.items():
         print(f'Sold {j} liters of {i}')
     print(f'Money erned {round(b, 2)}руб')
